@@ -1,0 +1,45 @@
+{
+  "name": "wordpress/dev",
+  "type": "project",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://connect.advancedcustomfields.com"
+    },
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
+  "require": {
+    "php": "^8.4",
+    "composer/installers": "^2.0",
+    "wpackagist-plugin/duplicate-post": "^4.5",
+    "wpackagist-plugin/query-monitor": "^3.17",
+    "wpackagist-plugin/wordpress-seo": "^25.2",
+    "wpackagist-theme/twentytwentyfive": "^1.2"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/installers": true
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "installer-paths": {
+      "wp-content/mu-plugins/{$name}/": [
+        "type:wordpress-muplugin"
+      ],
+      "wp-content/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "wp-content/themes/{$name}/": [
+        "type:wordpress-theme"
+      ]
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/wp-env.json",
+  "core": null,
+  "phpVersion": null,
+  "config": {
+    "WP_HOME": "http://localhost",
+    "WP_SITEURL": "http://localhost",
+    "WP_TESTS_DOMAIN": "localhost"
+  },
+  "mappings": {
+    "wp-content": "./wp-content"
+  },
+  "env": {
+    "development": {
+      "port": 5000,
+      "phpmyadminPort": 5001,
+      "config": {
+        "WP_DEBUG": true,
+        "WP_DEBUG_LOG": true,
+        "WP_DEBUG_DISPLAY": true,
+        "SCRIPT_DEBUG": true,
+        "WP_TESTS_TITLE": "WordPress Dev",
+        "WP_DISABLE_FATAL_ERROR_HANDLER": false
+      }
+    },
+    "tests": {
+      "port": 5010,
+      "phpmyadminPort": 5011,
+      "config": {
+        "WP_DEBUG": false,
+        "SCRIPT_DEBUG": false,
+        "WP_TESTS_TITLE": "Test - WordPress Dev"
+      }
+    }
+  }
+}

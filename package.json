@@ -1,0 +1,10 @@
+{
+  "name": "wordpress-dev",
+  "version": "0.1.0",
+  "scripts": {
+    "wp-env": "wp-env"
+  },
+  "devDependencies": {
+    "@wordpress/env": "^10.24.0"
+  }
+}
