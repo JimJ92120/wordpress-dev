@@ -17,7 +17,7 @@ pkgs.mkShell {
     php
     php.packages.composer
     wp-cli
-    docker
+    # docker to set globally to avoid permissions issue
   ];
 
   buildInputs = with pkgs;[
