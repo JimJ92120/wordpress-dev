@@ -66,6 +66,12 @@ composer install
 
 # development
 
+Project is set to run at [http://localhost:5000/](http://localhost:5000/) (see `.wp-env.json`).  
+Default credentials are:
+
+- username: `admin`
+- password: `password`
+
 ### wp-env
 
 `wp-env` is used to run a **development** and **testing** local environments.  
@@ -81,11 +87,6 @@ npm run wp-env start --update
 # reset all docker containers
 npm run wp-env clean all
 ```
-
-Default credentials are:
-
-- username: `admin`
-- password: `password`
 
 Additional configurations can be added to `.wp-env.json`.  
 See [`wp-env` documentation](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/).
