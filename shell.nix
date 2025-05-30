@@ -28,6 +28,6 @@ pkgs.mkShell {
     export PATH="$PWD/node_modules/.bin/:$PATH"
     
     npm install
-    npm run setup
+    composer install
   '';
 }
