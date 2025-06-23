@@ -22,6 +22,16 @@ A minimal **WordPress** environment for development (do not use for **production
 3. build and run `docker` containers via `docker-compose up`
 4. setup `wordpress` at `localhost:${WORDPRESS_PORT}`
 
+### containers
+
+Following containers will be created:
+
+- `wordpress`: `wordpress` instance
+- `wordpress-cli`: `wp-cli` utils (see `wp-cli` section below)
+- `wordpress-database`: `mysql` database
+- `wordpress-phpmyadmin`: `phpmyadmin`
+- `wordpress-mail-server`: `mailhog` SMTP server
+
 ### directory structure
 
 `./wp-content` directory will be mounted as a `docker` volume.
@@ -70,9 +80,10 @@ docker-compose run --rm wordpress-cli scaffold plugin plugin-test
 
 See [`wp-cli` documentation](https://developer.wordpress.org/cli/commands/).
 
-### phpmyadmin
-
 ### mailhog
+
+A `mailhog` SMTP server is set through `wordpress-mail-server` container for testing purposes.  
+It comes with a mandatory `wp-content/mu-plugins/mailhog.php` plugin, to allow the WordPress instance to redirect SMTP requests to `wordpress-mail-server` container.
 
 ---
 
