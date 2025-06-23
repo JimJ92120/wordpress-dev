@@ -1,0 +1,98 @@
+services:
+  wordpress:
+    image: wordpress:latest
+    container_name: "wordpress"
+    restart: unless-stopped
+    user: "${UID}:${GID}"
+    depends_on:
+      - wordpress-database
+      - wordpress-mail-server
+    environment:
+      WORDPRESS_DB_HOST: "${DATABASE_CONTAINER_NAME}:${DATABASE_PORT}"
+      WORDPRESS_DB_USER: "${DATABASE_USER}"
+      WORDPRESS_DB_PASSWORD: "${DATABASE_PASSWORD}"
+      WORDPRESS_DB_NAME: "${DATABASE_NAME}"
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_DEBUG', true );
+        define( 'WP_DEBUG_LOG', true );
+        define( 'SCRIPT_DEBUG', true );
+        define( 'WP_DEBUG_DISPLAY', false );
+        @ini_set( 'display_errors', 0 );
+        define( 'SMTP_HOST', '${MAIL_SERVER_CONTAINER_NAME}' );
+        define( 'SMTP_PORT', '1025' );
+        define( 'SMTP_FROM', '${MAIL_SERVER_FROM}' );
+        define( 'SMTP_FROM_NAME', '${MAIL_SERVER_FROM_NAME}' );
+        define( 'SMTP_DEBUG', '${MAIL_SERVER_DEBUG}' );
+    ports:
+      - "${WORDPRESS_PORT}:80"
+    volumes:
+      - ./wp-content/:/var/www/html/wp-content/:rw
+    networks:
+      - wordpress_network
+
+  wordpress-cli:
+    image: wordpress:cli
+    container_name: "wordpress-cli"
+    user: "${UID}:${GID}"
+    depends_on:
+      - wordpress
+      - wordpress-database
+    environment:
+      WORDPRESS_DB_HOST: "${DATABASE_CONTAINER_NAME}:${DATABASE_PORT}"
+      WORDPRESS_DB_USER: "${DATABASE_USER}"
+      WORDPRESS_DB_PASSWORD: "${DATABASE_PASSWORD}"
+      WORDPRESS_DB_NAME: "${DATABASE_NAME}"
+    entrypoint: wp
+    volumes_from:
+      - wordpress:rw
+    networks:
+      - wordpress_network
+
+  wordpress-database:
+    image: mariadb:latest
+    container_name: "${DATABASE_CONTAINER_NAME}"
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: "${DATABASE_NAME}"
+      MYSQL_USER: "${DATABASE_USER}"
+      MYSQL_PASSWORD: "${DATABASE_PASSWORD}"
+      MYSQL_TCP_PORT: "${DATABASE_PORT}"
+      MYSQL_UNIX_PORT: "${DATABASE_PORT}"
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1
+    expose:
+      - "${DATABASE_PORT}"
+    ports:
+      - "${DATABASE_PORT}:3306"
+    volumes:
+      - database_data:/var/lib/mysql
+    networks:
+      - wordpress_network
+
+  wordpress-phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: "wordpress-phpmyadmin"
+    restart: unless-stopped
+    depends_on:
+      - wordpress-database
+    environment:
+      PMA_PORT: "${DATABASE_PORT}"
+      PMA_HOST: "${DATABASE_CONTAINER_NAME}"
+    ports:
+      - "${PHPMYADMIN_PORT}:80"
+    networks:
+      - wordpress_network
+
+  wordpress-mail-server:
+    image: mailhog/mailhog:latest
+    container_name: "${MAIL_SERVER_CONTAINER_NAME}"
+    ports:
+      - "${MAIL_SERVER_SMTP_PORT}:1025"
+      - "${MAIL_SERVER_UI_PORT}:8025"
+    networks:
+      - wordpress_network
+
+volumes:
+  database_data:
+
+networks:
+  wordpress_network:

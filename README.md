@@ -1,6 +1,6 @@
 # wordpress-dev
 
-A minimal **WordPress** environment for development (do not use for **production**) with `wp-env`.  
+A minimal **WordPress** environment for development (do not use for **production**) with `docker`.  
 `wp-cli` and `composer` are used to improve development experience (manage depedencies, scaffold resources, database management, etc).
 
 ---
@@ -9,35 +9,24 @@ A minimal **WordPress** environment for development (do not use for **production
 
 # setup
 
-| requirements |            |
-| ------------ | ---------- |
-| `node`       | `^22.14.0` |
-| `npm`        | `^10.9.2`  |
-| `php`        | `^8.4`     |
-| `composer`   | `^2.8.5`   |
-| `wp-cli`     | `^2.1`     |
-| `docker`     | `^27.5.1`  |
+| requirements |           |
+| ------------ | --------- |
+| `php`        | `^8.4`    |
+| `composer`   | `^2.8.5`  |
+| `docker`     | `^27.5.1` |
 
 ### install
 
-```sh
-npm install
-```
+1. copy `.env.example` as `.env` and edit variables
+2. install `composer` dependencies via `composer install`
+3. build and run `docker` containers via `docker-compose up`
+4. setup `wordpress` at `localhost:${WORDPRESS_PORT}`
 
 ### directory structure
 
-`./wp-content` directory will be mounted as a `docker` volume for `wp-env` containers.  
-`wp-cli` to e.g **scaffold** plugins will be added to `./wp-content` directory.
+`./wp-content` directory will be mounted as a `docker` volume.
 
-See `.wp-env.json` mappings:
-
-```json
-{
-  "mappings": {
-    "wp-content": "./wp-content"
-  }
-}
-```
+`wp-cli` to e.g **scaffold** plugins will target directions located in `./wp-content`.
 
 ### wordpress plugins and themes
 
@@ -66,48 +55,24 @@ composer install
 
 # development
 
-Project is set to run at [http://localhost:5000/](http://localhost:5000/) (see `.wp-env.json`).  
-Default credentials are:
-
-- username: `admin`
-- password: `password`
-
-### wp-env
-
-`wp-env` is used to run a **development** and **testing** local environments.  
-A `npm` wrapper has been added, `wp-env` can be called with `npm run wp-env $COMMAND`
-
-```sh
-# start docker containers
-npm run wp-env start
-
-# apply wp-env.json updates to docker containers
-npm run wp-env start --update
-
-# reset all docker containers
-npm run wp-env clean all
-```
-
-Additional configurations can be added to `.wp-env.json`.  
-See [`wp-env` documentation](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/).
+Project is set to run at `http://localhost:${WORDPRESS_PORT}` (see `.env`).
 
 ### wp-cli
 
-`wp-cli` can be used along `wp-env` by targetting the relevant `*-cli` `docker` container.  
-To find which container to target, run `docker ps` and copy the name of the `*-cli` container.
-
-Then run `wp-cli` such as:
+`wp-cli` can be used along by targetting the dedicated `wordpress-cli` container.
 
 ```sh
-wp --ssh=docker:$DOCKER_CLI_CONTAINER $COMMAND
+docker-compose run --rm wordpress-cli $COMMAND
 
-# e.g with container "e390f3eaa02692d1e26c33d3b37b8e81-cli-1"
-wp --ssh=docker:e390f3eaa02692d1e26c33d3b37b8e81-cli-1 scaffold plugin plugin-test
+# e.g to create a new plugin
+docker-compose run --rm wordpress-cli scaffold plugin plugin-test
 ```
 
 See [`wp-cli` documentation](https://developer.wordpress.org/cli/commands/).
 
-###
+### phpmyadmin
+
+### mailhog
 
 ---
 
@@ -115,6 +80,5 @@ See [`wp-cli` documentation](https://developer.wordpress.org/cli/commands/).
 
 # documentation and links
 
-- [`wp-env`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/)
 - [`wp-cli`](https://developer.wordpress.org/cli/commands/)
 - [`wpackagist`](https://wpackagist.org/)

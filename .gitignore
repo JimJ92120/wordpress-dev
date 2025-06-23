@@ -4,4 +4,7 @@ package-lock.json
 vendor/
 composer.lock
 
-wp-content/
+wp-content/*
+!wp-content/mu-plugins
+
+.env

@@ -9,25 +9,14 @@ let
   phps = import nix-phps;
 
   php = phps.packages.${builtins.currentSystem}.php84;
-  node = pkgs.nodejs_22; # lts
 in
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
-    node
     php
     php.packages.composer
-    wp-cli
-    # docker to set globally to avoid permissions issue
   ];
 
-  buildInputs = with pkgs;[
-
-  ];
-
-  shellHook = ''
-    export PATH="$PWD/node_modules/.bin/:$PATH"
-    
-    npm install
+  shellHook = ''    
     composer install
   '';
 }
