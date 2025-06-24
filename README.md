@@ -11,7 +11,6 @@ A minimal **WordPress** environment for development (do not use for **production
 
 | requirements |           |
 | ------------ | --------- |
-| `php`        | `^8.4`    |
 | `composer`   | `^2.8.5`  |
 | `docker`     | `^27.5.1` |
 
@@ -27,6 +26,7 @@ A minimal **WordPress** environment for development (do not use for **production
 Following containers will be created:
 
 - `wordpress`: `wordpress` instance
+- `wordpress-nginx`: `nginx` reverse-proxy to server `fpm` content
 - `wordpress-cli`: `wp-cli` utils (see `wp-cli` section below)
 - `wordpress-database`: `mysql` database
 - `wordpress-phpmyadmin`: `phpmyadmin`
@@ -65,7 +65,11 @@ composer install
 
 # development
 
-Project is set to run at `http://localhost:${WORDPRESS_PORT}` (see `.env`).
+Project is set to run at `http://localhost:${WORDPRESS_PORT}` (see `.env`).  
+Different version of e.g `php` and `wordpress` may be run, the current stack uses:
+
+- `wordpress 6.8.1`
+- `php 8.4`
 
 ### wp-cli
 
@@ -93,3 +97,11 @@ It comes with a mandatory `wp-content/mu-plugins/mailhog.php` plugin, to allow t
 
 - [`wp-cli`](https://developer.wordpress.org/cli/commands/)
 - [`wpackagist`](https://wpackagist.org/)
+
+### docker images
+
+- https://hub.docker.com/_/wordpress
+- https://hub.docker.com/_/mariadb
+- https://hub.docker.com/_/nginx
+- https://hub.docker.com/r/mailhog/mailhog
+- https://hub.docker.com/_/phpmyadmin
