@@ -11,7 +11,6 @@ A minimal **WordPress** environment for development (do not use for **production
 
 | requirements |           |
 | ------------ | --------- |
-| `php`        | `^8.4`    |
 | `composer`   | `^2.8.5`  |
 | `docker`     | `^27.5.1` |
 
@@ -93,3 +92,10 @@ It comes with a mandatory `wp-content/mu-plugins/mailhog.php` plugin, to allow t
 
 - [`wp-cli`](https://developer.wordpress.org/cli/commands/)
 - [`wpackagist`](https://wpackagist.org/)
+
+### docker images
+
+- https://hub.docker.com/_/wordpress
+- https://hub.docker.com/_/mariadb
+- https://hub.docker.com/r/mailhog/mailhog
+- https://hub.docker.com/_/phpmyadmin
