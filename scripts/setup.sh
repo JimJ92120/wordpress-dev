@@ -31,7 +31,6 @@ if [ "development" == $ENV ]; then
       npm --prefix $MODULE_PATH install
     fi
   done
-
 elif [ "production" == $ENV ]; then
   composer install --no-dev
 
@@ -41,6 +40,7 @@ elif [ "production" == $ENV ]; then
     echo "building \"$MODULE_PATH\"";
 
     if [ -e "$MODULE_PATH/composer.json" ]; then
+      composer validate --strict
       composer install --working-dir=$MODULE_PATH --no-dev
     fi
 
