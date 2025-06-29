@@ -43,4 +43,5 @@ jobs:
       - name:
         run: |
           composer run test production
+          composer run setup production
           composer run build production

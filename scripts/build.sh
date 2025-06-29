@@ -5,49 +5,46 @@ MODULE_PATH_LIST_TO_BUILD=(
   "wp-content/plugins/plugin-name"
   "wp-content/themes/theme-name"
 )
+MODULE_PATH_LIST_TO_REMOVE=(
+  "wp-content/mu-plugins/mailhog.php"
+)
+BUILD_DIRECTORY=".build"
 
 if [ -z $ENV ]; then
   echo "missing ENV argument"
-  echo "e.g ./setup.sh development"
+  echo "e.g ./build.sh development"
 
   exit
 fi
 
-echo "setting up project for $ENV..."
+echo "building project $ENV..."
 
-if [ "development" == $ENV ]; then
-  composer install
+#
+echo "building custom modules..."
 
-  echo "installing custom modules custom modules..."
+for MODULE_PATH in ${MODULE_PATH_LIST_TO_BUILD[@]}; do
+  echo "building \"$MODULE_PATH\"";
 
-  for MODULE_PATH in ${MODULE_PATH_LIST_TO_BUILD[@]}; do
-    echo "building \"$MODULE_PATH\"";
+  if [ -e "$MODULE_PATH/package.json" ]; then
+    npm --prefix $MODULE_PATH --loglevel=error run build
+  fi
+done
 
-    if [ -e "$MODULE_PATH/composer.json" ]; then
-      composer install --working-dir=$MODULE_PATH
-    fi
-
-    if [ -e "$MODULE_PATH/package.json" ]; then
-      npm --prefix $MODULE_PATH install
-    fi
-  done
-elif [ "production" == $ENV ]; then
-  composer install --no-dev
-
-  echo "installing custom modules custom modules..."
+if [ "production" == $ENV ]; then
+  echo "preparing build for $ENV..."
 
   for MODULE_PATH in ${MODULE_PATH_LIST_TO_BUILD[@]}; do
-    echo "building \"$MODULE_PATH\"";
+    echo "removing $MODULE_PATH..."
 
-    if [ -e "$MODULE_PATH/composer.json" ]; then
-      composer validate --strict
-      composer install --working-dir=$MODULE_PATH --no-dev
-    fi
-
-    if [ -e "$MODULE_PATH/package.json" ]; then
-      npm --prefix $MODULE_PATH --loglevel=error ci
-    fi
+    rm -rf $MODULE_PATH
   done
+
+  #
+  rm -rf $BUILD_DIRECTORY
+  mkdir $BUILD_DIRECTORY
+
+  cp -r wp-content/mu-plugins wp-content/plugins wp-content/themes $BUILD_DIRECTORY
 fi
 
+#
 echo "done"
