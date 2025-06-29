@@ -22,16 +22,24 @@ echo "building project $ENV..."
 #
 echo "building custom modules..."
 
-for MODULE_PATH in ${MODULE_PATH_LIST_TO_BUILD[@]}; do
-  echo "building \"$MODULE_PATH\"";
 
-  if [ -e "$MODULE_PATH/package.json" ]; then
-    npm --prefix $MODULE_PATH --loglevel=error run build
-  fi
-done
+if [ "development" == $ENV ]; then
+  for MODULE_PATH in ${MODULE_PATH_LIST_TO_BUILD[@]}; do
+    echo "building \"$MODULE_PATH\"";
 
-if [ "production" == $ENV ]; then
-  echo "preparing build for $ENV..."
+    if [ -e "$MODULE_PATH/package.json" ]; then
+      npm --prefix $MODULE_PATH run build
+    fi
+  done
+elif [ "production" == $ENV ]; then
+  for MODULE_PATH in ${MODULE_PATH_LIST_TO_BUILD[@]}; do
+    echo "building \"$MODULE_PATH\"";
+
+    if [ -e "$MODULE_PATH/package.json" ]; then
+      npm --prefix $MODULE_PATH --loglevel=error run build
+      rm -rf $MODULE_PATH/node_modules
+    fi
+  done
 
   for MODULE_PATH in ${MODULE_PATH_LIST_TO_REMOVE[@]}; do
     echo "removing $MODULE_PATH..."
@@ -45,6 +53,7 @@ if [ "production" == $ENV ]; then
 
   cp -r wp-content/mu-plugins wp-content/plugins wp-content/themes $BUILD_DIRECTORY/wp-content
   ls $BUILD_DIRECTORY/wp-content/*
+  du -hs .build
 fi
 
 #
