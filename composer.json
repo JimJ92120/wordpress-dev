@@ -1,5 +1,7 @@
 {
   "name": "wordpress/dev",
+  "description": "wordpress development setup",
+  "license": "MIT",
   "type": "project",
   "repositories": [
     {
@@ -41,5 +43,10 @@
         "type:wordpress-theme"
       ]
     }
+  },
+  "scripts": {
+    "test": "bash ./scripts/test.sh",
+    "setup": "bash ./scripts/setup.sh",
+    "build": "bash ./scripts/build.sh"
   }
 }
