@@ -1,10 +1,14 @@
-node_modules/
-package-lock.json
-
 vendor/
-composer.lock
 
-wp-content/*
-!wp-content/mu-plugins
+wp-content/plugins/*
+wp-content/themes/*
+wp-content/uploads/*
+wp-content/index.php
+wp-content/debug.log
+
+# !wp-content/plugins/plugin-name
+# !wp-content/themes/theme-name/
 
 .env
+
+.build
