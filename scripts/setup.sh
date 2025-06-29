@@ -32,6 +32,7 @@ if [ "development" == $ENV ]; then
     fi
   done
 elif [ "production" == $ENV ]; then
+  composer validate --strict
   composer install --no-dev
 
   echo "installing custom modules custom modules..."

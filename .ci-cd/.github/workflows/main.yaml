@@ -3,8 +3,8 @@ name: test
 on:
   push:
     branches: ["main"]
-  # pull_request:
-  #   branches: [ "main" ]
+  pull_request:
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -16,31 +16,25 @@ jobs:
       matrix:
         node-version: ["22"]
         php-version: ["8.4"]
+        composer-version: ["v2"]
 
     steps:
       - uses: actions/checkout@v4
+      # node
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+      # php
       - name: Setup PHP with ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
+          tools: composer:${{ matrix.composer-version }}
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate --strict
-
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v3
-        with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
-
-      - name:
+      # do not use composer install --optimize-autoloader due permission issue
+      # Error: RecursiveDirectoryIterator::__construct(//var/lock/lvm): Failed to open directory: Permission denied
+      - name: Prepare project's build
         run: |
           composer run test production
           composer run setup production
