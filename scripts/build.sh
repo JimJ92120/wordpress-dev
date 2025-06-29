@@ -44,6 +44,7 @@ if [ "production" == $ENV ]; then
   mkdir $BUILD_DIRECTORY
 
   cp -r wp-content/mu-plugins wp-content/plugins wp-content/themes $BUILD_DIRECTORY
+  ls wp-content/*
 fi
 
 #
