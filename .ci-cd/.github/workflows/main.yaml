@@ -65,4 +65,5 @@ jobs:
       - name: Deploy to...
         run: |
           ls -l
+          ls -l wp-content/*
           du -hs .
