@@ -33,7 +33,7 @@ done
 if [ "production" == $ENV ]; then
   echo "preparing build for $ENV..."
 
-  for MODULE_PATH in ${MODULE_PATH_LIST_TO_BUILD[@]}; do
+  for MODULE_PATH in ${MODULE_PATH_LIST_TO_REMOVE[@]}; do
     echo "removing $MODULE_PATH..."
 
     rm -rf $MODULE_PATH
