@@ -15,7 +15,7 @@
   ],
   "require": {
     "php": "^8.4",
-    "composer/installers": "^2.0",
+    "composer/installers": "^2.2",
     "wpackagist-plugin/duplicate-post": "^4.5",
     "wpackagist-plugin/query-monitor": "^3.17",
     "wpackagist-plugin/wordpress-seo": "^25.2",
