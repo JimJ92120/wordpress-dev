@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo "setting up project..."
+composer install
 
 echo "installing custom modules custom modules..."
 MODULE_PATH_LIST_TO_BUILD=(
