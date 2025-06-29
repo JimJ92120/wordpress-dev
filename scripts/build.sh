@@ -39,12 +39,12 @@ if [ "production" == $ENV ]; then
     rm -rf $MODULE_PATH
   done
 
-  #
   rm -rf $BUILD_DIRECTORY
   mkdir $BUILD_DIRECTORY
+  mkdir "$BUILD_DIRECTORY/wp-content"
 
-  cp -r wp-content/mu-plugins wp-content/plugins wp-content/themes $BUILD_DIRECTORY
-  ls wp-content/*
+  cp -r wp-content/mu-plugins wp-content/plugins wp-content/themes $BUILD_DIRECTORY/wp-content
+  ls $BUILD_DIRECTORY/wp-content/*
 fi
 
 #
