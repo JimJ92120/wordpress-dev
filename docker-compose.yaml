@@ -14,6 +14,7 @@ services:
       WORDPRESS_DB_NAME: "${DATABASE_NAME}"
       WORDPRESS_DEBUG: 1
       WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_DEBUG_LOG', true );
         define( 'SMTP_HOST', '${MAIL_SERVER_CONTAINER_NAME}' );
         define( 'SMTP_PORT', '1025' );
         define( 'SMTP_FROM', '${MAIL_SERVER_FROM}' );
@@ -54,8 +55,6 @@ services:
       MYSQL_TCP_PORT: "${DATABASE_PORT}"
       MYSQL_UNIX_PORT: "${DATABASE_PORT}"
       MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1
-    expose:
-      - "${DATABASE_PORT}"
     ports:
       - "${DATABASE_PORT}:3306"
     volumes:
