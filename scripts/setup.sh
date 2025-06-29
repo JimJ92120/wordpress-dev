@@ -21,7 +21,7 @@ for MODULE_PATH in $MODULE_PATH_LIST_TO_BUILD; do
   if [ -e "$MODULE_PATH/package.json" ]; then
     echo "running \"npm install\" and \"npm run build\" for $MODULE_PATH"
 
-    npm --prefix $MODULE_PATH install # --omit="dev"
+    npm --prefix $MODULE_PATH install
   fi
 done
 
