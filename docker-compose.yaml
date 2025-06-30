@@ -5,8 +5,8 @@ services:
     restart: unless-stopped
     user: "${UID}:${GID}"
     depends_on:
-      - wordpress-database
-      - wordpress-mail-server
+      - "${DATABASE_CONTAINER_NAME}"
+      - "${MAIL_SERVER_CONTAINER_NAME}"
     environment:
       WORDPRESS_DB_HOST: "${DATABASE_CONTAINER_NAME}:${DATABASE_PORT}"
       WORDPRESS_DB_USER: "${DATABASE_USER}"
@@ -31,7 +31,7 @@ services:
 
   wordpress-nginx:
     image: nginx:stable-alpine
-    container_name: wordpress-nginx
+    container_name: "wordpress-nginx"
     restart: unless-stopped
     depends_on:
       - wordpress
@@ -69,7 +69,7 @@ services:
     user: "${UID}:${GID}"
     depends_on:
       - wordpress
-      - wordpress-database
+      - "${DATABASE_CONTAINER_NAME}"
     environment:
       WORDPRESS_DB_HOST: "${DATABASE_CONTAINER_NAME}:${DATABASE_PORT}"
       WORDPRESS_DB_USER: "${DATABASE_USER}"
@@ -86,7 +86,7 @@ services:
     container_name: "wordpress-phpmyadmin"
     restart: unless-stopped
     depends_on:
-      - wordpress-database
+      - "${DATABASE_CONTAINER_NAME}"
     environment:
       PMA_PORT: "${DATABASE_PORT}"
       PMA_HOST: "${DATABASE_CONTAINER_NAME}"
