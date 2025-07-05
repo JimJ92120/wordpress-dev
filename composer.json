@@ -21,12 +21,16 @@
     "wpackagist-plugin/wordpress-seo": "^25.2",
     "wpackagist-theme/twentytwentyfive": "^1.2"
   },
+  "require-dev": {
+    "automattic/vipwpcs": "^3.0"
+  },
   "config": {
     "optimize-autoloader": true,
     "preferred-install": "dist",
     "sort-packages": true,
     "allow-plugins": {
-      "composer/installers": true
+      "composer/installers": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   },
   "minimum-stability": "dev",
@@ -47,6 +51,12 @@
   "scripts": {
     "test": "bash ./scripts/test.sh",
     "setup": "bash ./scripts/setup.sh",
-    "build": "bash ./scripts/build.sh"
+    "build": "bash ./scripts/build.sh",
+    "format": "composer run format:plugins && composer run format:theme",
+    "format-fix": "composer run format-fix:plugins && composer run format-fix:theme",
+    "format:plugins": "vendor/bin/phpcs ./wp-content/mu-plugins --standard=phpcs.xml -sp",
+    "format:theme": "vendor/bin/phpcs ./wp-content/themes/habitstracker --standard=phpcs.xml",
+    "format-fix:plugins": "vendor/bin/phpcbf ./wp-content/mu-plugins --standard=phpcs.xml",
+    "format-fix:theme": "vendor/bin/phpcbf ./wp-content/themes/habitstracker --standard=phpcs.xml"
   }
 }
