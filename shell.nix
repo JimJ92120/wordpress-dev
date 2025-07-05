@@ -17,6 +17,6 @@ pkgs.mkShell {
   ];
 
   shellHook = ''    
-    composer install
+    # composer install
   '';
 }
