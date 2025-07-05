@@ -14,6 +14,8 @@
 		<exclude name="Generic.Functions.CallTimePassByReference" />
 		<exclude name="PSR2.Methods.FunctionCallSignature.SpaceAfterOpenBracket" />
 		<exclude name="PSR2.Methods.FunctionCallSignature.SpaceBeforeCloseBracket" />
+		<exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpacingBeforeCloseBrace" />
+
 	</rule>
 
 	<rule ref="Modernize" />
@@ -22,5 +24,6 @@
 
 	<rule ref="PSR12">
 		<exclude name="PSR12.Files.FileHeader" />
+		<exclude name="PSR12.ControlStructures.ControlStructureSpacing" />
 	</rule>
 </ruleset>
