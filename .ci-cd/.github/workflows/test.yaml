@@ -1,0 +1,41 @@
+name: habitstracker
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ["22"]
+        php-version: ["8.4"]
+        composer-version: ["v2.2"]
+
+    steps:
+      - uses: actions/checkout@v4
+      # node
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      # php
+      - name: Setup PHP with ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:${{ matrix.composer-version }}
+
+      - name: Testing
+        run: |
+          composer validate --strict
+          composer install
+
+          composer run format
